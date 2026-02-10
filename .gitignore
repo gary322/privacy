@@ -20,6 +20,9 @@ private_keep/
 **/.last*
 **/*.tgz
 
+# UVCC papers (keep out of the public code repo by default)
+research/uvcc_native/UVCC_Phase6_Paper*
+
 # Build outputs
 build/
 **/build/
