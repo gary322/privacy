@@ -1,6 +1,8 @@
 .venv/
 .python-version
 
+.DS_Store
+
 __pycache__/
 *.py[cod]
 *.so
@@ -15,6 +17,8 @@ out*/
 **/out*/
 private_keep/
 **/private_keep/
+**/.last*
+**/*.tgz
 
 # Build outputs
 build/
@@ -32,4 +36,3 @@ cache/
 *.jsonl
 *.sqlite
 *.db
-
