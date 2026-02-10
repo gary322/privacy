@@ -4,12 +4,23 @@ UVCC is a practical system for **confidential** GPU computation across mutually 
 
 This repository is a standalone extraction of the UVCC code/spec from a larger workspace. It intentionally excludes any run outputs (`out-*`) and secret material (`private_keep`).
 
+## Status / Disclaimer
+
+This is research-grade software. It has not been independently audited. Do not treat it as production-ready cryptography.
+
 ## What “Verifiable Confidential Compute” Means Here
 
 - **Confidentiality**: secrets (inputs, weights, activations, gradients, optimizer state) are protected using **3-party honest-majority MPC** with **replicated secret sharing (RSS)**.
 - **Verifiability (receipt-style)**: the runtime emits deterministic **transcript leaves** for protocol events (transport + OPEN/LIFT/etc), computes **Merkle epoch roots** and a **final root**, and packages them into a **Proof Bundle** signed by the three parties (EIP-712). A verifier can recompute roots and validate signatures independently.
 
 This is **not** a general-purpose zkSNARK/zkVM proof of arbitrary GPU execution. UVCC’s verifiability is a deterministic, auditor-friendly **execution receipt** bound to the MPC protocol events (plus optional protocol-level checks such as SKS/Freivalds where enabled).
+
+## How People Use This Repo
+
+- **Verify a UVCC run**: given `proof_bundle.json` + `transcript_v1.jsonl`, a third party can deterministically recompute transcript roots and validate party signatures.
+- **Run a local 3-party demo**: run all three parties locally against a local relay and produce a proof bundle + transcript.
+- **Run real GPUs**: use the Prime 3-node runner to provision 3 GPU nodes across providers, run the protocol, then verify and optionally anchor a receipt on-chain (demo contracts).
+- **Hack on the protocol/runtime**: iterate on transcript rules, transport framing, OPEN batching, TCF triple derivations, SKS checks, and the native C++ runtime.
 
 ## Repo Layout
 
@@ -43,7 +54,26 @@ This is **not** a general-purpose zkSNARK/zkVM proof of arbitrary GPU execution.
 - `docs/how_to_run.md`
   - Operator guide + postmortem for the Prime 3-node run.
 
-## Quick Start (Local Demo + Verification)
+## Quick Start: Verify Artifacts (No GPU Required)
+
+If you only want to verify someone else’s run artifacts, you do **not** need CUDA or Torch.
+
+```bash
+uv venv
+source .venv/bin/activate
+uv pip install -r research/uvcc/requirements-uvcc-base.txt
+```
+
+Verify:
+
+```bash
+PYTHONPATH=research/uvcc/uvcc-verifier \
+  python -m uvcc_verifier verify \
+    --proof /path/to/proof_bundle.json \
+    --transcript /path/to/transcript_v1.jsonl
+```
+
+## Quick Start: Local Demo (CPU)
 
 ### 1) Python environment
 
@@ -51,25 +81,44 @@ From repo root:
 
 ```bash
 uv venv
+source .venv/bin/activate
 uv pip install -r research/uvcc/requirements-uvcc-base.txt
 ```
 
-### 2) Run a deterministic local demo job
+### 2) Install PyTorch
+
+`research/uvcc/requirements-uvcc-base.txt` intentionally does **not** pin Torch (your Torch build must match your platform/CUDA). Install Torch separately, e.g.:
+
+```bash
+uv pip install torch
+```
+
+### 3) Run a deterministic local demo job
 
 This starts a local relay, runs 3 parties locally, and writes `proof_bundle.json` + `transcript_v1.jsonl`:
 
 ```bash
 PYTHONPATH=research/uvcc/uvcc-client \
-  python3 -m uvcc_client run-demo --out ./out/uvcc-demo
+  python -m uvcc_client run-demo --out ./out/uvcc-demo
 ```
 
-### 3) Verify proof bundle vs transcript (third-party check)
+### 4) Verify proof bundle vs transcript (third-party check)
 
 ```bash
 PYTHONPATH=research/uvcc/uvcc-verifier \
-  python3 -m uvcc_verifier verify \
+  python -m uvcc_verifier verify \
     --proof ./out/uvcc-demo/proof_bundle.json \
     --transcript ./out/uvcc-demo/transcript_v1.jsonl
+```
+
+## Run the Relay (Standalone)
+
+```bash
+python research/uvcc/uvcc-relay/relay_server.py \
+  --host 127.0.0.1 \
+  --port 8080 \
+  --db ./out/uvcc-relay.sqlite \
+  --require-token false
 ```
 
 ## Prime 3-Node Runner (Real GPUs)
@@ -97,7 +146,10 @@ cmake --build research/uvcc_native/build -j
 ctest --test-dir research/uvcc_native/build --output-on-failure
 ```
 
+## Contact
+
+Email: `gary@alien.international`
+
 ## License
 
 See `LICENSE` and `NOTICE`.
-
