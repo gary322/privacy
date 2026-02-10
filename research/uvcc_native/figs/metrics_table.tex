@@ -1,0 +1,23 @@
+\begin{table}[t]
+\centering
+\caption{Key Phase 6 metrics (derived from consolidated logs)}
+\label{tab:metrics}
+\begin{tabular}{lrr}
+\toprule
+Metric & Count/Value \\
+\midrule
+epoch root & 192 \\
+dp ready & 194 \\
+dp ok & 193 \\
+fwd open ok & 6144 \\
+bwd open ok & 6144 \\
+uid wait & 408 \\
+worker timeouts & 0 \\
+transport aborts & 0 \\
+runner ssh banner errors & 9 \\
+nccl init tp (n=192) min/p50/max & 0.120/1.710/5.750 s \\
+nccl init pp (n=192) min/p50/max & 0.010/8.450/20.280 s \\
+nccl init dp (n=192) min/p50/max & 0.020/101.510/108.060 s \\
+\bottomrule
+\end{tabular}
+\end{table}

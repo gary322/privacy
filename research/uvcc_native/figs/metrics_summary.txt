@@ -1,0 +1,15 @@
+Phase 6 metrics (parsed from explained logs)
+bwd_open_ok: 6144
+dp_ok: 193
+dp_ready: 194
+epoch_root: 192
+fwd_open_ok: 6144
+runner_ssh_banner_errors: 9
+uid_wait: 408
+nccl_init_totals[nranks=2]: n=192 min=0.120 p50=1.710 max=5.750
+nccl_init_totals[nranks=4]: n=192 min=0.010 p50=8.450 max=20.280
+nccl_init_totals[nranks=8]: n=192 min=0.020 p50=101.510 max=108.060
+nccl_init_totals[group=tp]: n=192 min=0.120 p50=1.710 max=5.750
+nccl_init_totals[group=pp]: n=192 min=0.010 p50=8.450 max=20.280
+nccl_init_totals[group=dp]: n=192 min=0.020 p50=101.510 max=108.060
+topology: R=8 S=4 T=2 M=32

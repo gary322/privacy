@@ -1,0 +1,15 @@
+# UVCC v1 (research/uvcc) base requirements for orchestration + verification tooling.
+# Torch is intentionally excluded because GPU wheels must match the target CUDA runtime.
+#
+# This file is consumed by the 3-node Prime bootstrapper to create a per-node venv.
+requests==2.32.5
+paramiko==4.0.0
+cryptography==44.0.3
+eth-utils==5.3.1
+eth-keys==0.7.0
+eth-hash==0.7.1
+pycryptodome==3.20.0
+ninja==1.11.1.3
+pytest==8.2.1
+
+

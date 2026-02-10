@@ -1,0 +1,19 @@
+Alien Compute Layer (VR-ACU GPU Layer)
+
+Copyright (C) 2026 VR-ACU Contributors
+
+This repository is licensed under the GNU Affero General Public License v3.0
+(AGPL-3.0). See the `LICENSE` file for the full text.
+
+This project is a decentralized GPU compute layer (control-plane + launcher +
+provider stack) designed to be extended by independently deployable adapters.
+
+Third-party components:
+- This repository depends on third-party open-source libraries (Python/JS/Solidity).
+  Dependency manifests (e.g. `requirements*.txt`, `pyproject.toml`, `package*.json`,
+  `foundry.toml`, `foundry.lock`) govern those components’ licenses.
+
+Trademarks:
+- “Alien”, “VR-ACU”, “ACU”, “AVL” and related marks/logos may be trademarks.
+  This NOTICE does not grant trademark rights.
+

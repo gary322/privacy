@@ -1,0 +1,12 @@
+{
+  "kind": "train_v1",
+  "d": 64,
+  "steps": 2,
+  "seed": 424242,
+  "require_cuda": true,
+  "fxp_frac_bits": 0,
+  "sks_t_checks": 8,
+  "sks_sample_log2": 0
+}
+
+

@@ -1,0 +1,35 @@
+.venv/
+.python-version
+
+__pycache__/
+*.py[cod]
+*.so
+
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+
+# Local outputs / artifacts (do not publish)
+out*/
+**/out*/
+private_keep/
+**/private_keep/
+
+# Build outputs
+build/
+**/build/
+cache/
+**/cache/
+
+# Foundry
+**/broadcast/
+**/out/
+**/cache/
+
+# Common logs / DBs
+*.log
+*.jsonl
+*.sqlite
+*.db
+
